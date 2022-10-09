@@ -31,12 +31,14 @@ class AdminController extends Controller {
             $user_type = $user_type["id"];
 
             // getting user id
-             $user_id = User::where("user_id", $request->user_type)->orderByDesc("user_id")->first();
+             $user_id = User::orderByDesc("user_id")->select("user_id")->first();
             if ($user_id === null){
                 $user_id = 10000;
             }
-            $user_id++;
-
+            else{
+                $user_id = $user_id["user_id"] + 1;    
+            }
+            
             $user = User::create([
                 'user_id' => $user_id,
                 'name' => $request->name,
