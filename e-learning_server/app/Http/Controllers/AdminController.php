@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\User;
 use App\Models\UserType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller {
 
@@ -31,7 +33,7 @@ class AdminController extends Controller {
             $user_type = $user_type["id"];
 
             // getting user id
-             $user_id = User::orderByDesc("user_id")->select("user_id")->first();
+            $user_id = User::orderByDesc("user_id")->select("user_id")->first();
             if ($user_id === null){
                 $user_id = 10000;
             }
@@ -65,5 +67,28 @@ class AdminController extends Controller {
                 'message' => 'User type created successfully',
                 'user_type' => $type,
             ]);
+    }
+
+    public function addCourse(Request $request) {
+
+            $validator = $request->validate([
+                'code' => 'required|string|max:10',
+                'name' => 'required|string',
+                'description' => 'required|string',
+                'credits' => 'required|integer',
+            ]);
+
+            $course = Course::create([
+                    'code' => $request->code,
+                    'name' => $request->name,
+                    'description' => $request->description,
+                    'credits' => $request->credits,
+                ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Course created successfully',
+                'course' => $course,
+            ], 200);
     }
 }
