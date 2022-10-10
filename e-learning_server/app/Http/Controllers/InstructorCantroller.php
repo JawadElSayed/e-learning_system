@@ -18,11 +18,11 @@ class InstructorCantroller extends Controller {
             'due_to' => 'required|date',
         ]);
 
-        $course_exist = Course::where("code", $request->course_id)->first();
-        if($course_exist !== null){
+        $course_exist = Course::find($request->course_id);
+        if($course_exist === null){
             return response()->json([
                 'status' => 'error',
-                'message' => 'course already exist',
+                'message' => 'course does not exist',
             ]);
         }
 
