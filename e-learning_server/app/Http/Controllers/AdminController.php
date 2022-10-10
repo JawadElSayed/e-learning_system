@@ -28,16 +28,6 @@ class AdminController extends Controller {
         }
         // generating password
         $password = Str::random(8);
-        
-        // specifying user type
-        $user_type = UserType::where("user_type", $request->user_type)->first();
-        if ($user_type === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'user type does not exist',
-            ]);
-        }
-        $user_type = $user_type["id"];
 
         // getting user id
         $user_id = User::orderByDesc("user_id")->select("user_id")->first();
@@ -48,11 +38,12 @@ class AdminController extends Controller {
             $user_id = $user_id["user_id"] + 1;    
         }
         
+        // creating user
         $user = User::create([
             'user_id' => $user_id,
             'name' => $request->name,
             'password' => Hash::make($password),
-            'user_type' => $user_type,
+            'user_type' => $request->user_type,
         ]);
 
         return response()->json([
@@ -63,21 +54,9 @@ class AdminController extends Controller {
         ]);
     }
 
-    public function addUserType($user_type){
-
-        $type = UserType::create([
-                'user_type' => $user_type,
-            ]);
-
-        return response()->json([
-                'status' => 'success',
-                'message' => 'User type created successfully',
-                'user_type' => $type,
-            ]);
-    }
-
     public function addCourse(Request $request) {
 
+        // validating inputes
         try {
             $request->validate([
                 'code' => 'required|string|max:10',
@@ -92,6 +71,7 @@ class AdminController extends Controller {
             ]);
         }
 
+        // check if course exists
         $course_exist = Course::where("code", $request->code)->first();
         if($course_exist !== null){
             return response()->json([
@@ -100,6 +80,7 @@ class AdminController extends Controller {
             ]);
         }
 
+        // creating course
         $course = Course::create([
             'code' => $request->code,
             'name' => $request->name,
@@ -128,9 +109,8 @@ class AdminController extends Controller {
             ]);
         }
 
-        $user_type = UserType::where("user_type", "instructor")->select("_id")->first();
-        $instructor = User::where("user_type", $user_type["_id"])->where("_id", $request->user_id)->get();
-        
+        // checking if instructor
+        $instructor = User::where("user_type", "instructor")->where("_id", $request->user_id)->get();
         if($instructor === null){
             return response()->json([
                 'status' => 'error',
@@ -138,6 +118,7 @@ class AdminController extends Controller {
             ]);
         }
 
+        // checking if course exists
         $course_exist = Course::where("code", $request->course_code)->select("_id")->first();
         if($course_exist === null){
             return response()->json([
@@ -146,6 +127,7 @@ class AdminController extends Controller {
             ]);
         }
 
+        // assigning course
         $course = Course::find($course_exist["_id"]);
         $course->user_id = $request->user_id;  
         $course->save();
