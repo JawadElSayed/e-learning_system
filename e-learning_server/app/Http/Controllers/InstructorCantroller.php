@@ -41,4 +41,25 @@ class InstructorCantroller extends Controller {
             'assignment' => $assignment,
         ], 200);
     }
+
+    public function addAnnouncement(Request $request) {
+
+        $request->validate([
+            'title' => 'required|string',
+            'announcement' => 'required|string',
+        ]);
+
+        $user_id = Auth::user();
+        $assignment = Assignment::create([
+            'user_id' => $user_id,
+            'title' => $request->title,
+            'announcement' => $request->announcement,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'assignment created successfully',
+            'assignment' => $assignment,
+        ], 200);
+    }
 }

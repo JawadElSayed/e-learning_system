@@ -13,3 +13,4 @@ Route::post("/login", [AuthController::class, "login"])->name("login");
 Route::post("/add_course", [AdminController::class, "addCourse"])->name("add-course");
 Route::get("/assign/{code_code?}/{user_id?}", [AdminController::class, "assign"])->name("assign");
 Route::post("/add_assignment", [InstructorCantroller::class, "addAssignment"])->name("add-assignment");
+Route::post("/add_announcement", [InstructorCantroller::class, "addAnnouncement"])->name("add-announcement");
