@@ -23,7 +23,6 @@ class AdminController extends Controller {
         } catch (ValidationException $exception) {
             return response()->json([
                 'status' => 'error',
-                // 'msg'    => 'Error',
                 'errors' => $exception->getMessage(),
             ]);
         }
@@ -89,7 +88,6 @@ class AdminController extends Controller {
         } catch (ValidationException $exception) {
             return response()->json([
                 'status' => 'error',
-                // 'msg'    => 'Error',
                 'errors' => $exception->getMessage(),
             ]);
         }
@@ -116,10 +114,22 @@ class AdminController extends Controller {
         ], 200);
     }
 
-    public function assign($course_code = "csc200", $user_id = "63433351cdfd39141808b1e3") {
+    public function assign(Request $request) {
+
+        try {
+            $request->validate([
+                'course_code' => 'required|string|max:10',
+                'user_id' => 'required|string',
+            ]);
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $exception->getMessage(),
+            ]);
+        }
 
         $user_type = UserType::where("user_type", "instructor")->select("_id")->first();
-        $instructor = User::where("user_type", $user_type["_id"])->where("_id", $user_id)->get();
+        $instructor = User::where("user_type", $user_type["_id"])->where("_id", $request->user_id)->get();
         
         if($instructor === null){
             return response()->json([
@@ -128,7 +138,7 @@ class AdminController extends Controller {
             ]);
         }
 
-        $course_exist = Course::where("code", $course_code)->select("_id")->first();
+        $course_exist = Course::where("code", $request->course_code)->select("_id")->first();
         if($course_exist === null){
             return response()->json([
                 'status' => 'error',
@@ -137,7 +147,7 @@ class AdminController extends Controller {
         }
 
         $course = Course::find($course_exist["_id"]);
-        $course->user_id = $user_id;  
+        $course->user_id = $request->user_id;  
         $course->save();
         
         return response()->json([
