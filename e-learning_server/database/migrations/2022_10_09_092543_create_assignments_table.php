@@ -10,7 +10,7 @@ return new class extends Migration {
 
         Schema::create('assignments', function (Blueprint $table) {
             $table->id();
-            $table->string("course_code");            
+            $table->string("course_id");            
             $table->integer("user_id");
             $table->string("title");
             $table->text("assignment");

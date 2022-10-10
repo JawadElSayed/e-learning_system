@@ -12,7 +12,7 @@ class Assignment extends Model {
     protected $collection = 'assignments';
 
     protected $fillable = [
-        'course_code',
+        'course_id',
         'user_id',
         'title',
         'assignment',
