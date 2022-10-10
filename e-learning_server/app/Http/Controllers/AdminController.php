@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use PhpParser\Node\Stmt\Return_;
 
 class AdminController extends Controller {
 
@@ -71,24 +72,32 @@ class AdminController extends Controller {
 
     public function addCourse(Request $request) {
 
-            $validator = $request->validate([
-                'code' => 'required|string|max:10',
-                'name' => 'required|string',
-                'description' => 'required|string',
-                'credits' => 'required|integer',
-            ]);
+        $request->validate([
+            'code' => 'required|string|max:10',
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'credits' => 'required|integer',
+        ]);
 
-            $course = Course::create([
-                    'code' => $request->code,
-                    'name' => $request->name,
-                    'description' => $request->description,
-                    'credits' => $request->credits,
-                ]);
-
+        $course_exist = Course::where("code", $request->code)->first();
+        if($course_exist !== null){
             return response()->json([
-                'status' => 'success',
-                'message' => 'Course created successfully',
-                'course' => $course,
-            ], 200);
+                'status' => 'error',
+                'message' => 'course already exist',
+            ]);
+        }
+
+        $course = Course::create([
+            'code' => $request->code,
+            'name' => $request->name,
+            'description' => $request->description,
+            'credits' => $request->credits,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Course created successfully',
+            'course' => $course,
+        ], 200);
     }
 }
