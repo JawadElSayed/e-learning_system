@@ -15,10 +15,18 @@ class AdminController extends Controller {
     public function addUser(Request $request){
 
         // validating inputes
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'user_type' => 'required|string',
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'user_type' => 'required|string',
+            ]);
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'status' => 'error',
+                // 'msg'    => 'Error',
+                'errors' => $exception->getMessage(),
+            ]);
+        }
         // generating password
         $password = Str::random(8);
         
@@ -71,12 +79,20 @@ class AdminController extends Controller {
 
     public function addCourse(Request $request) {
 
-        $request->validate([
-            'code' => 'required|string|max:10',
-            'name' => 'required|string',
-            'description' => 'required|string',
-            'credits' => 'required|integer',
-        ]);
+        try {
+            $request->validate([
+                'code' => 'required|string|max:10',
+                'name' => 'required|string',
+                'description' => 'required|string',
+                'credits' => 'required|integer',
+            ]);
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'status' => 'error',
+                // 'msg'    => 'Error',
+                'errors' => $exception->getMessage(),
+            ]);
+        }
 
         $course_exist = Course::where("code", $request->code)->first();
         if($course_exist !== null){
