@@ -1,6 +1,7 @@
+import React from "react";
 import Button from "./Button";
 
-const LeftBar = ({ userType, onclick, setPage }) => {
+const LeftBar = ({ userType, setPage }) => {
     return (
         <div className="left_bar">
             <img
