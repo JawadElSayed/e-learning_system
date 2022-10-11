@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InstructorCantroller;
+use App\Http\Controllers\StudentCantroller;
 use Illuminate\Support\Facades\Route;
 
 Route::post("/login", [AuthController::class, "login"])->name("login");
@@ -14,3 +15,4 @@ Route::post("/add_course", [AdminController::class, "addCourse"])->name("add-cou
 Route::get("/assign/{code_code?}/{user_id?}", [AdminController::class, "assign"])->name("assign");
 Route::post("/add_assignment", [InstructorCantroller::class, "addAssignment"])->name("add-assignment");
 Route::post("/add_announcement", [InstructorCantroller::class, "addAnnouncement"])->name("add-announcement");
+Route::post("/submit", [StudentCantroller::class, "submit"])->name("submit");

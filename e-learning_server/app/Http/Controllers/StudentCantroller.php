@@ -40,6 +40,19 @@ class StudentCantroller extends Controller {
                 'message' => 'your are late',
             ]);
         }
+
+        // submiting
+        $user_id = Auth::user();
+        Submit::create([
+            'assignment_id' => $request->assignment_id,
+            'user_id' => $user_id,
+            'file' => $request->file,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'submited successfully',
+        ], 200);
     }
     
 }
