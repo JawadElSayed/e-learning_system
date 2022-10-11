@@ -43,3 +43,12 @@ button {
     padding: 1rem 0rem;
     border-radius: 1rem;
 }
+
+.titles {
+    display: flex;
+    padding-left: 3rem;
+}
+
+.title{
+    padding: 3rem 4rem 1rem 4rem;
+}
