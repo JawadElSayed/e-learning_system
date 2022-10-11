@@ -54,5 +54,42 @@ class StudentCantroller extends Controller {
             'message' => 'submited successfully',
         ], 200);
     }
-    
+
+    public function enroll(Request $request) {
+        
+        // validating inpute
+        try {
+            $request->validate([
+            'course_id' => 'required|string',
+        ]);
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => $exception->getMessage(),
+            ]);
+        }
+
+        // checking if course exist
+        $course_exist = Course::find($request->course_id);
+        if($course_exist === null){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'course does not exist',
+            ]);
+        }
+
+        // enrolling
+        $user_id = Auth::user();
+        Enrolle::create([
+            'user_id' => $user_id,
+            'course_id' => $request->course_id,
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'enrolled successfully',
+        ], 200);
+
+        
+    }
 }

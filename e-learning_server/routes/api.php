@@ -16,3 +16,4 @@ Route::get("/assign/{code_code?}/{user_id?}", [AdminController::class, "assign"]
 Route::post("/add_assignment", [InstructorCantroller::class, "addAssignment"])->name("add-assignment");
 Route::post("/add_announcement", [InstructorCantroller::class, "addAnnouncement"])->name("add-announcement");
 Route::post("/submit", [StudentCantroller::class, "submit"])->name("submit");
+Route::post("/enroll", [StudentCantroller::class, "enroll"])->name("course-enroll");
