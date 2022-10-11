@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announcement;
 use App\Models\Assignment;
 use App\Models\Course;
 use Illuminate\Http\Request;
@@ -27,6 +28,7 @@ class InstructorCantroller extends Controller {
             ]);
         }
 
+        // checking if course exist
         $course_exist = Course::find($request->course_id);
         if($course_exist === null){
             return response()->json([
@@ -35,6 +37,7 @@ class InstructorCantroller extends Controller {
             ]);
         }
 
+        // adding assignment
         $user_id = Auth::user();
         $assignment = Assignment::create([
             'course_id' => $request->course_id,
@@ -66,8 +69,9 @@ class InstructorCantroller extends Controller {
             ]);
         }
 
+        // adding announcement
         $user_id = Auth::user();
-        $assignment = Assignment::create([
+        $announcement = Announcement::create([
             'user_id' => $user_id,
             'title' => $request->title,
             'announcement' => $request->announcement,
@@ -75,8 +79,8 @@ class InstructorCantroller extends Controller {
 
         return response()->json([
             'status' => 'success',
-            'message' => 'assignment created successfully',
-            'assignment' => $assignment,
+            'message' => 'announcement created successfully',
+            'assignment' => $announcement,
         ], 200);
     }
 }
