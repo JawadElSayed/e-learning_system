@@ -148,5 +148,15 @@ class AdminController extends Controller {
                 'students' => $students,
             ], 200);
     }
+    
+    public function Instructor() {
 
+        // checking if course exists
+        $Instructor = Instructor::where("user_type", "student")->get();
+        
+        return response()->json([
+                'status' => 'success',
+                'students' => $Instructor,
+            ], 200);
+    }
 }

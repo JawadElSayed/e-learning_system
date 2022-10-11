@@ -11,6 +11,7 @@ Route::middleware(['cors'])->group(function () {
     Route::post("/login", [AuthController::class, "login"])->name("login");
 
     Route::get("/students", [AdminController::class, "students"]);
+    Route::get("/instructor", [AdminController::class, "Instructor"]);
     Route::post("/add_user", [AdminController::class, "addUser"])->name("add-user");
     Route::post("/login", [AuthController::class, "login"])->name("login");
     Route::post("/add_course", [AdminController::class, "addCourse"])->name("add-course");
