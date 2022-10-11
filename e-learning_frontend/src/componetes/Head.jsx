@@ -22,6 +22,21 @@ const Head = ({ pageTitle }) => {
                     <h3 className="title">credit</h3>
                 </div>
             )}
+            {pageTitle === "Assingments" && (
+                <div className="titles">
+                    <h3 className="title">Course</h3>
+                    <h3 className="title">Title</h3>
+                    <h3 className="title">Assingment</h3>
+                    <h3 className="title">Due TO</h3>
+                </div>
+            )}
+            {pageTitle === "Announcements" && (
+                <div className="titles">
+                    <h3 className="title">Title</h3>
+                    <h3 className="title">Announcement</h3>
+                    <h3 className="title">Date</h3>
+                </div>
+            )}
         </div>
     );
 };
