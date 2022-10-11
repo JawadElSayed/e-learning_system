@@ -12,7 +12,7 @@ class Submit extends Model {
     protected $collection = 'submits';
 
     protected $fillable = [
-        'user_type',
+        'user_id',
         'assignment_id',
         'file',
     ];

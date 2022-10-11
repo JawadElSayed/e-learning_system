@@ -12,7 +12,7 @@ class Enrolle extends Model {
     protected $collection = 'enrolles';
 
     protected $fillable = [
-        'user_type',
-        'course_code',
+        'user_id',
+        'course_id',
     ];
 }
