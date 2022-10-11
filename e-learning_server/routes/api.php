@@ -17,3 +17,4 @@ Route::post("/add_assignment", [InstructorCantroller::class, "addAssignment"])->
 Route::post("/add_announcement", [InstructorCantroller::class, "addAnnouncement"])->name("add-announcement");
 Route::post("/submit", [StudentCantroller::class, "submit"])->name("submit");
 Route::post("/enroll", [StudentCantroller::class, "enroll"])->name("course-enroll");
+Route::get("/enrolled_courses", [StudentCantroller::class, "enrolledCourses"])->name("enrolled-courses");

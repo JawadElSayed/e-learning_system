@@ -89,7 +89,28 @@ class StudentCantroller extends Controller {
             'status' => 'success',
             'message' => 'enrolled successfully',
         ], 200);
+    }
 
+    public function enrolledCourses() {
         
+        // filter by id
+        $user_id = Auth::user();
+        $courses = Enrolle::where("user_id", $user_id)
+                        ->select("course_id")
+                        ->get();
+
+        $array = [];
+        foreach ($courses as $c) {
+            $array []= $c["course_id"];
+        }
+        
+        // geting courses info (best to user join but it doesn't work with me)
+        $enroll = Course::whereIn("code", $array)->get();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'filtered successfully',
+            "courses" => $enroll,
+        ], 200);
     }
 }
